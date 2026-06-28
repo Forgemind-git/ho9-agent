@@ -1,0 +1,27 @@
+EXAMPLE RUN — Page Change Monitor Agent in Claude Cowork
+(This shows a SECOND run, where last week's snapshot was pasted in for comparison.)
+
+What Claude did, step by step:
+  1. Opened both pricing pages and read them in full.
+  2. Compared them to the pasted previous snapshot.
+  3. Judged which changes actually matter.
+  4. Wrote the report below and saved a fresh snapshot-2025-06-27.md.
+
+----------------------------- What Changed — 2025-06-27 -----------------------------
+
+# What Changed — 2025-06-27
+
+## https://www.anthropic.com/pricing — ⚠️ Changed
+- **Team plan price:** was $25/user/month → now $30/user/month.
+  Why it matters: a 20% increase on the plan most of our prospects compare against.
+- New "Annual billing" toggle added (no list-price change for monthly).
+
+## https://openai.com/pricing — No change
+- No meaningful changes since the last snapshot. Wording on one footnote was reworded;
+  treated as noise.
+
+------------------------------------------------------------------------------------
+Saved baseline for next run: snapshot-2025-06-27.md
+
+(Note: illustrative example with made-up figures so you can see the format. Your real run
+reads the live pages — always confirm a price change on the page yourself before acting.)

@@ -26,9 +26,18 @@ Choose **one** of these real use-cases — or bring your own (get it approved fi
 
 ## How to use this repo
 
+Each folder in `samples/` is a **ready-to-use agent** for Claude Cowork — no API key, no coding,
+no terminal. Open a sample, copy the filled-in brief from its `agent-prompt.md` into a **Claude.ai
+Cowork** session (Pro or Team), swap in your own input, and let Claude run the job on its own. Each
+sample's `README.md` has plain-language steps and a `sample_output.txt` showing a real result.
+
 1. Click **Use this template** to create your own copy.
-2. Build your chosen project in your copy.
-3. Replace this section of the README with: what you built, the problem it solves, and how to run it.
+2. Pick the sample closest to your job, copy its agent brief into Cowork, and run it.
+3. Adapt the brief to your own use case, then replace this section of the README with: what you
+   built, the problem it solves, and how to run it.
+
+> No API key needed — these run on your normal Claude.ai subscription. (An optional Python version
+> that uses the Anthropic API lives on the `main` branch, for advanced learners only.)
 
 ---
 

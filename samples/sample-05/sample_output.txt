@@ -1,0 +1,37 @@
+EXAMPLE RUN — Recurring Report Generator in Claude Cowork
+Input: this week's raw metrics
+
+What Claude did, step by step:
+  1. Computed week-over-week % changes, churn rate, and ARPU.
+  2. Picked the 3 headline takeaways.
+  3. Wrote the report below and saved it as report-2025-W26.md.
+  4. Gave a 2-line Slack summary.
+
+----------------------------- report-2025-W26.md -----------------------------
+
+# Weekly Report — Week of 2025-06-23
+
+## Headline takeaways
+- Sign-ups jumped +15.1% week-over-week (358 → 412) — strongest week this quarter.
+- Churn improved: 14 → 11 customers lost, a churn rate of ~0.12% of active users.
+- Support load dropped 17% (88 → 73 tickets) even as the user base grew — good signal.
+
+## Metrics
+| Metric            | This week | Last week | % change |
+|-------------------|-----------|-----------|----------|
+| New sign-ups      | 412       | 358       | +15.1%   |
+| Active users      | 9,240     | 8,910     | +3.7%    |
+| Revenue (MRR)     | $48,300   | $46,100   | +4.8%    |
+| Support tickets   | 73        | 88        | -17.0%   |
+| Churned customers | 11        | 14        | -21.4%   |
+| ARPU (MRR/active) | $5.23     | $5.17     | +1.1%    |
+
+## What to watch next week
+- Can the sign-up surge hold, or was it a one-off campaign spike?
+- ARPU is creeping up slowly — worth checking which plan tier is driving it.
+
+------------------------------- Slack summary -------------------------------
+📈 Strong week: sign-ups +15%, churn down to 11, support tickets -17%.
+MRR up 4.8% to $48.3k. Full report saved as report-2025-W26.md.
+
+(Note: illustrative example. Always double-check the maths on your real numbers.)

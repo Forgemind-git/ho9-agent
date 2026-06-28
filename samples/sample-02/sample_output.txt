@@ -1,0 +1,24 @@
+EXAMPLE RUN — Lead Enrichment Agent in Claude Cowork
+Input: 5 company names (Stripe, Notion, Linear, Figma, Vercel)
+
+What Claude did, step by step:
+  1. Searched the web for each company.
+  2. Confirmed industry, size band, website, HQ, and one senior contact for each.
+  3. Wrote "unknown" wherever it couldn't confirm a field (no guessing).
+  4. Saved everything to enriched_leads.csv and printed the summary below.
+
+--------------------------- enriched_leads.csv ---------------------------
+
+company_name,industry,size,website,hq_location,contact_name,contact_role,source
+Stripe,Payments / Fintech,5000+,https://stripe.com,"San Francisco, USA",Patrick Collison,CEO & Co-founder,https://stripe.com/about
+Notion,Productivity software,501-1000,https://notion.so,"San Francisco, USA",Ivan Zhao,CEO & Co-founder,https://notion.so/about
+Linear,Project management software,51-200,https://linear.app,"San Francisco, USA",Karri Saarinen,CEO & Co-founder,https://linear.app/about
+Figma,Design software,1001-5000,https://figma.com,"San Francisco, USA",Dylan Field,CEO & Co-founder,https://figma.com/about
+Vercel,Cloud / Developer infrastructure,501-1000,https://vercel.com,"San Francisco, USA",Guillermo Rauch,CEO & Founder,https://vercel.com/about
+
+------------------------------- summary -------------------------------
+5 of 5 companies enriched. All fields confirmed from official company pages.
+No emails or phone numbers were invented (left out per the rules).
+
+(Note: this is an illustrative example. Figures like headcount bands change over time —
+verify anything you plan to act on.)

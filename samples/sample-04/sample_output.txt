@@ -1,0 +1,51 @@
+EXAMPLE RUN — Inbox Triage Agent in Claude Cowork
+Input: 5 messages
+
+What Claude did, step by step:
+  1. Read all 5 messages.
+  2. Categorised and prioritised each.
+  3. Drafted replies for the ones that need one.
+  4. Saved everything to triage-drafts.md and printed the table below.
+
+------------------------------- Triage table -------------------------------
+
+# | From                        | Category          | Priority | Needs reply?
+1 | angry-customer@acme.com     | Critical support  | Urgent   | Yes
+2 | finance@bigcorp.com         | Billing           | High     | Yes
+5 | partnerships@growthco.com   | Partnership       | Medium   | Yes
+3 | jamie@startup.io            | Feature request   | Low      | Yes
+4 | newsletter@somevendor.com   | Newsletter        | Low      | No reply needed
+
+------------------------------- Draft replies -------------------------------
+
+## 1 — angry-customer@acme.com (Urgent)
+Hi there,
+Thank you for flagging this, and I'm sorry for the disruption — I completely understand how
+serious downtime is when orders are on the line. I'm escalating this to our engineering team
+right now and will get you a status update as soon as I have one. In the meantime, could you
+confirm the affected endpoint so we can prioritise correctly?
+Best, The Acme Team
+
+## 2 — finance@bigcorp.com (High)
+Hi,
+Happy to help — I'll have invoice #4471 re-sent to this address today so you're well ahead of
+Friday's deadline. If it hasn't arrived within a couple of hours, just reply here and I'll
+resend it directly. Thanks for your patience!
+Best, The Acme Team
+
+## 5 — partnerships@growthco.com (Medium)
+Hi,
+Thanks for reaching out — a co-marketing webinar sounds like a great fit. I'd love to learn
+more about what you have in mind. Would a short call next week work to scope it out? Let me
+know a couple of times that suit you.
+Best, The Acme Team
+
+## 3 — jamie@startup.io (Low)
+Hi Jamie,
+Thank you — that's lovely to hear! Dark mode is something a few customers have asked for, so
+I've passed your note to our product team. I can't promise a date, but I'll make sure your
+vote is counted. Thanks for taking the time to share it.
+Best, The Acme Team
+
+(Note: illustrative example. Replies deliberately avoid promising dates or refunds — review
+before sending.)
