@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample 02 — Lead Enrichment Agent · HO9</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#F8F9FA; color:#1a1a2e; }
+:root { --color: #B45309; }
+header { background: var(--color); color:#fff; padding:40px 32px 32px; }
+header .badge { font-size:13px; font-weight:700; letter-spacing:.08em; opacity:.8; text-transform:uppercase; margin-bottom:8px; }
+header h1 { font-size:28px; font-weight:800; margin-bottom:8px; }
+header p { font-size:15px; opacity:.85; max-width:640px; line-height:1.6; }
+.container { max-width:860px; margin:0 auto; padding:32px; }
+.sub-bar { background:#fff; border-left:4px solid var(--color); padding:14px 20px; margin-bottom:28px; border-radius:4px; font-size:14px; color:#374151; line-height:1.6; box-shadow:0 1px 4px rgba(0,0,0,.07); }
+.sub-bar strong { color:var(--color); }
+section { background:#fff; border-radius:10px; box-shadow:0 1px 6px rgba(0,0,0,.08); padding:28px 32px; margin-bottom:24px; }
+section h2 { font-size:17px; font-weight:700; color:var(--color); margin-bottom:16px; border-bottom:2px solid #FEF3C7; padding-bottom:8px; }
+section p { font-size:14.5px; color:#374151; line-height:1.7; margin-bottom:10px; }
+section ol, section ul { padding-left:20px; font-size:14.5px; color:#374151; line-height:1.9; }
+section li { margin-bottom:4px; }
+.step-list { list-style:none; padding-left:0; }
+.step-list li { display:flex; gap:14px; margin-bottom:16px; }
+.step-num { background:var(--color); color:#fff; font-weight:800; font-size:13px; border-radius:50%; width:26px; height:26px; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.step-text { font-size:14.5px; color:#374151; line-height:1.6; }
+.prompt-block { background:#1e1e2e; color:#e2e8f0; border-radius:8px; padding:20px 22px; font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:13px; line-height:1.7; position:relative; margin-top:12px; white-space:pre-wrap; word-break:break-word; }
+.copy-btn { position:absolute; top:12px; right:12px; background:rgba(255,255,255,.12); color:#e2e8f0; border:none; border-radius:5px; padding:5px 12px; font-size:12px; cursor:pointer; font-family:inherit; }
+.copy-btn:hover { background:rgba(255,255,255,.22); }
+.copy-btn.copied { background:#16a34a; }
+.output-block { background:#0f172a; color:#94a3b8; border-radius:8px; padding:20px 22px; font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:12.5px; line-height:1.7; margin-top:12px; white-space:pre-wrap; overflow-x:auto; }
+.tag { display:inline-block; background:#FEF3C7; color:#92400E; font-size:11.5px; font-weight:700; padding:2px 8px; border-radius:4px; margin-right:6px; margin-bottom:4px; }
+.ref-note { background:#F0FDF4; border:1px solid #BBF7D0; border-radius:6px; padding:14px 18px; margin-top:12px; font-size:13px; color:#166534; line-height:1.6; }
+.back-link { display:inline-flex; align-items:center; gap:6px; color:#fff; opacity:.8; font-size:13px; text-decoration:none; margin-bottom:14px; }
+.back-link:hover { opacity:1; }
+table { width:100%; border-collapse:collapse; font-size:13.5px; margin-top:12px; }
+th { background:#FEF3C7; color:#92400E; font-weight:700; padding:10px 14px; text-align:left; }
+td { padding:10px 14px; border-bottom:1px solid #F3F4F6; color:#374151; }
+tr:last-child td { border-bottom:none; }
+footer { text-align:center; padding:24px; color:#9CA3AF; font-size:13px; border-top:1px solid #E5E7EB; margin-top:8px; }
+</style>
+</head>
+<body>
+<header>
+  <a href="../../" class="back-link">← Back to HO9</a>
+  <div class="badge">HO9 · Sample 02</div>
+  <h1>Lead Enrichment Agent</h1>
+  <p>Take a list of company names and automatically fill in industry, size, website, and a key contact — fully automated.</p>
+</header>
+
+<div class="container">
+
+  <div class="sub-bar">
+    <strong>Claude.ai subscription required</strong> — Requires Claude.ai Pro or Team subscription with Cowork access. No API key or local Python setup needed.
+  </div>
+
+  <section>
+    <h2>What this does</h2>
+    <p>This agent takes a plain list of company names and enriches each one with:</p>
+    <ul>
+      <li>Industry / sector</li>
+      <li>Company size (headcount or revenue band)</li>
+      <li>Website URL</li>
+      <li>Key contact name and title</li>
+      <li>LinkedIn or other public profile URL</li>
+    </ul>
+    <p style="margin-top:12px;">The result is a ready-to-use enriched CSV you can paste into your CRM. What used to take a sales rep hours of manual research is done in minutes.</p>
+  </section>
+
+  <section>
+    <h2>Subscription required</h2>
+    <p><strong>Claude.ai Pro or Team</strong> subscription with <strong>Cowork</strong> access is required. Cowork gives Claude web-search capability so it can look up real company data for each entry in your list.</p>
+    <div>
+      <span class="tag">Claude.ai Pro</span>
+      <span class="tag">Claude.ai Team</span>
+      <span class="tag">Cowork feature</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Step-by-step in Claude Cowork</h2>
+    <ol class="step-list">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-text">Open <strong>claude.ai</strong> and sign in to your Pro or Team account.</div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-text">Click <strong>"Cowork"</strong> in the left sidebar to start a new Cowork session.</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-text">Prepare your company list — a simple line-by-line list of names (e.g. Stripe, Notion, Linear, Vercel, Figma).</div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-text">Paste this prompt into Cowork, replacing the company list with your own:
+          <div class="prompt-block" id="prompt-02">You are a lead enrichment agent. I'll give you a list of companies and you must research and enrich each one WITHOUT asking me questions.
+
+Companies to enrich:
+- Stripe
+- Notion
+- Linear
+- Vercel
+- Figma
+
+For EACH company, find and fill in:
+1. Industry / sector
+2. Company size (employee count or band: 1-50 / 50-200 / 200-1000 / 1000+)
+3. Website URL
+4. Founded year
+5. Key contact: name and title (CEO or Head of Sales preferred)
+6. Brief description (1 sentence)
+
+Steps:
+1. Search the web for each company one by one
+2. Extract the enrichment fields from search results
+3. Present the results as a clean markdown table with columns: Company | Industry | Size | Website | Founded | Key Contact | Description
+4. After the table, save it as a CSV file named enriched-leads.csv
+
+Do not skip any company. Work through the full list before presenting results.</div>
+          <button class="copy-btn" onclick="copyPrompt('prompt-02', this)">Copy</button>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div class="step-text">Replace the example company list with your own names before pasting.</div>
+      </li>
+      <li>
+        <div class="step-num">6</div>
+        <div class="step-text">Claude will search the web for each company, fill in all fields, present a markdown table, and save the CSV for download.</div>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Sample output</h2>
+    <p>Example enriched table for a 5-company list:</p>
+    <table>
+      <tr>
+        <th>Company</th><th>Industry</th><th>Size</th><th>Website</th><th>Key Contact</th>
+      </tr>
+      <tr>
+        <td>Stripe</td><td>Fintech / Payments</td><td>1000+</td><td>stripe.com</td><td>Patrick Collison, CEO</td>
+      </tr>
+      <tr>
+        <td>Notion</td><td>Productivity / SaaS</td><td>200-1000</td><td>notion.so</td><td>Ivan Zhao, CEO</td>
+      </tr>
+      <tr>
+        <td>Linear</td><td>Dev Tools / SaaS</td><td>50-200</td><td>linear.app</td><td>Karri Saarinen, CEO</td>
+      </tr>
+      <tr>
+        <td>Vercel</td><td>Cloud / Dev Infra</td><td>200-1000</td><td>vercel.com</td><td>Guillermo Rauch, CEO</td>
+      </tr>
+      <tr>
+        <td>Figma</td><td>Design / SaaS</td><td>1000+</td><td>figma.com</td><td>Dylan Field, CEO</td>
+      </tr>
+    </table>
+    <div class="output-block">File saved: enriched-leads.csv
+Enriched 5/5 companies successfully.
+All data sourced from public web search.</div>
+  </section>
+
+  <section>
+    <h2>Reference: local Python version</h2>
+    <p>The files below are the original Python implementation that requires <code>ANTHROPIC_API_KEY</code> and a local Python environment.</p>
+    <div class="ref-note">
+      📁 <strong>agent.py</strong> — main agent loop (reads CSV → enriches → saves)<br>
+      📁 <strong>tools.py</strong> — read_companies_csv, lookup_company, save_results tool definitions<br>
+      📁 <strong>requirements.txt</strong> — pip dependencies<br>
+      📁 <strong>sample_output.txt</strong> — full console output from a Python run
+    </div>
+  </section>
+
+</div>
+
+<footer>Forgemind AI · Claude Course · HO9 · <a href="https://github.com/Forgemind-git/ho9-agent" style="color:#9CA3AF;">github.com/Forgemind-git/ho9-agent</a></footer>
+
+<script>
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).innerText.replace('Copy','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample 05 — Recurring Report Generator · HO9</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#F8F9FA; color:#1a1a2e; }
+:root { --color: #B45309; }
+header { background: var(--color); color:#fff; padding:40px 32px 32px; }
+header .badge { font-size:13px; font-weight:700; letter-spacing:.08em; opacity:.8; text-transform:uppercase; margin-bottom:8px; }
+header h1 { font-size:28px; font-weight:800; margin-bottom:8px; }
+header p { font-size:15px; opacity:.85; max-width:640px; line-height:1.6; }
+.container { max-width:860px; margin:0 auto; padding:32px; }
+.sub-bar { background:#fff; border-left:4px solid var(--color); padding:14px 20px; margin-bottom:28px; border-radius:4px; font-size:14px; color:#374151; line-height:1.6; box-shadow:0 1px 4px rgba(0,0,0,.07); }
+.sub-bar strong { color:var(--color); }
+section { background:#fff; border-radius:10px; box-shadow:0 1px 6px rgba(0,0,0,.08); padding:28px 32px; margin-bottom:24px; }
+section h2 { font-size:17px; font-weight:700; color:var(--color); margin-bottom:16px; border-bottom:2px solid #FEF3C7; padding-bottom:8px; }
+section p { font-size:14.5px; color:#374151; line-height:1.7; margin-bottom:10px; }
+section ol, section ul { padding-left:20px; font-size:14.5px; color:#374151; line-height:1.9; }
+section li { margin-bottom:4px; }
+.step-list { list-style:none; padding-left:0; }
+.step-list li { display:flex; gap:14px; margin-bottom:16px; }
+.step-num { background:var(--color); color:#fff; font-weight:800; font-size:13px; border-radius:50%; width:26px; height:26px; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.step-text { font-size:14.5px; color:#374151; line-height:1.6; }
+.prompt-block { background:#1e1e2e; color:#e2e8f0; border-radius:8px; padding:20px 22px; font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:13px; line-height:1.7; position:relative; margin-top:12px; white-space:pre-wrap; word-break:break-word; }
+.copy-btn { position:absolute; top:12px; right:12px; background:rgba(255,255,255,.12); color:#e2e8f0; border:none; border-radius:5px; padding:5px 12px; font-size:12px; cursor:pointer; font-family:inherit; }
+.copy-btn:hover { background:rgba(255,255,255,.22); }
+.copy-btn.copied { background:#16a34a; }
+.output-block { background:#0f172a; color:#94a3b8; border-radius:8px; padding:20px 22px; font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:12.5px; line-height:1.7; margin-top:12px; white-space:pre-wrap; overflow-x:auto; }
+.tag { display:inline-block; background:#FEF3C7; color:#92400E; font-size:11.5px; font-weight:700; padding:2px 8px; border-radius:4px; margin-right:6px; margin-bottom:4px; }
+.ref-note { background:#F0FDF4; border:1px solid #BBF7D0; border-radius:6px; padding:14px 18px; margin-top:12px; font-size:13px; color:#166534; line-height:1.6; }
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; margin-top:12px; }
+.kpi-card { background:#FEF3C7; border-radius:8px; padding:16px; text-align:center; }
+.kpi-val { font-size:24px; font-weight:800; color:var(--color); }
+.kpi-label { font-size:11.5px; color:#92400E; margin-top:4px; }
+.kpi-delta { font-size:12px; color:#16a34a; font-weight:700; }
+.back-link { display:inline-flex; align-items:center; gap:6px; color:#fff; opacity:.8; font-size:13px; text-decoration:none; margin-bottom:14px; }
+.back-link:hover { opacity:1; }
+footer { text-align:center; padding:24px; color:#9CA3AF; font-size:13px; border-top:1px solid #E5E7EB; margin-top:8px; }
+</style>
+</head>
+<body>
+<header>
+  <a href="../../" class="back-link">← Back to HO9</a>
+  <div class="badge">HO9 · Sample 05</div>
+  <h1>Recurring Report Generator</h1>
+  <p>Pull data from a source, compute KPIs, build a structured report, and save it — designed to run on a schedule with no human input.</p>
+</header>
+
+<div class="container">
+
+  <div class="sub-bar">
+    <strong>Claude.ai subscription required</strong> — Requires Claude.ai Pro or Team subscription with Cowork access. No API key or local Python setup needed.
+  </div>
+
+  <section>
+    <h2>What this does</h2>
+    <p>This agent generates a complete structured report from raw data — daily, weekly, or on demand. It:</p>
+    <ul>
+      <li>Accepts raw metrics (from a spreadsheet, pasted table, CSV, or description)</li>
+      <li>Computes derived KPIs: churn rate, ARPU, growth %, MoM trends</li>
+      <li>Builds a formatted markdown report with headline numbers, trend analysis, and commentary</li>
+      <li>Saves the report with a date-stamped filename</li>
+      <li>Surfaces the top 3 "so what" takeaways for leadership</li>
+    </ul>
+    <p style="margin-top:12px;">Replaces 30–60 minutes of weekly analyst work. Paste your data, get your report.</p>
+  </section>
+
+  <section>
+    <h2>Subscription required</h2>
+    <p><strong>Claude.ai Pro or Team</strong> subscription with <strong>Cowork</strong> access is required. Cowork lets Claude process structured data, compute metrics, generate formatted reports, and save files.</p>
+    <div>
+      <span class="tag">Claude.ai Pro</span>
+      <span class="tag">Claude.ai Team</span>
+      <span class="tag">Cowork feature</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Step-by-step in Claude Cowork</h2>
+    <ol class="step-list">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-text">Open <strong>claude.ai</strong> and sign in to your Pro or Team account.</div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-text">Click <strong>"Cowork"</strong> in the left sidebar to start a new Cowork session.</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-text">Gather your raw data — paste a CSV, copy a spreadsheet table, or describe your numbers. The prompt below includes sample SaaS metrics you can replace with your own.</div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-text">Paste this prompt into Cowork, replacing the sample data with your own metrics:
+          <div class="prompt-block" id="prompt-05">You are a recurring report generator agent. I'll give you raw metrics and you must build a complete report WITHOUT asking me questions.
+
+REPORT TYPE: Daily SaaS metrics
+REPORT DATE: [TODAY'S DATE]
+
+RAW METRICS (replace with your actual data):
+- New sign-ups today: 47
+- Total active users: 1,284
+- Churned users today: 3
+- MRR this month: $24,350
+- MRR last month: $22,100
+- New paid conversions today: 8
+- API calls today: 128,400
+- API calls yesterday: 119,200
+- Support tickets opened: 12
+- Support tickets closed: 15
+- Top feature used: Dashboard (38% of sessions)
+
+STEPS:
+1. Compute these derived KPIs:
+   - Daily churn rate = churned / total active × 100
+   - MoM MRR growth % = (this month - last month) / last month × 100
+   - ARPU = MRR / total active users
+   - API call growth % vs yesterday
+   - Support ticket resolution rate = closed / (opened + closed) × 100
+
+2. Build a structured markdown report with these sections:
+   ## Daily Report — [DATE]
+   ### Headline Numbers (KPI cards: value + delta)
+   ### Trend Analysis (2-3 paragraphs interpreting the numbers)
+   ### Top 3 Takeaways (bullet points for leadership)
+   ### Raw Data Reference (table of all inputs)
+
+3. Flag any metric that is outside normal range:
+   - Churn rate above 0.5% = WARNING
+   - MRR growth below 5% MoM = WARNING
+   - API growth negative = WARNING
+
+4. Save the report as daily-report-[DATE].md
+
+Complete all steps without stopping.</div>
+          <button class="copy-btn" onclick="copyPrompt('prompt-05', this)">Copy</button>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div class="step-text">Replace the sample metrics with your actual numbers. Replace <code>[TODAY'S DATE]</code> with today's date.</div>
+      </li>
+      <li>
+        <div class="step-num">6</div>
+        <div class="step-text">For recurring use, save this prompt as a template. Each day, paste the same prompt with updated numbers. The saved .md file is downloadable from Cowork.</div>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Sample output</h2>
+    <p>Example headline KPIs from a generated report:</p>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-val">47</div><div class="kpi-label">New Sign-ups</div><div class="kpi-delta">↑ +12% vs avg</div></div>
+      <div class="kpi-card"><div class="kpi-val">$24,350</div><div class="kpi-label">MRR</div><div class="kpi-delta">↑ +10.2% MoM</div></div>
+      <div class="kpi-card"><div class="kpi-val">$18.96</div><div class="kpi-label">ARPU</div><div class="kpi-delta">↑ +2.1%</div></div>
+      <div class="kpi-card"><div class="kpi-val">0.23%</div><div class="kpi-label">Daily Churn</div><div class="kpi-delta">✓ Normal</div></div>
+    </div>
+    <div class="output-block">## Top 3 Takeaways
+
+1. MRR growth of 10.2% MoM is healthy — on track for $290K ARR run rate
+   if current trajectory holds through month-end.
+
+2. API call growth (+7.7% day-over-day) suggests increased product engagement,
+   possibly correlated with the 47 new sign-ups activating today.
+
+3. Support resolution rate of 55.6% is below the 75% target — consider
+   reviewing ticket queue for blockers.
+
+Report saved: daily-report-2025-06-27.md</div>
+  </section>
+
+  <section>
+    <h2>Reference: local Python version</h2>
+    <p>The files below are the original Python implementation that requires <code>ANTHROPIC_API_KEY</code> and a local Python environment. The Python version also supports running on a cron schedule.</p>
+    <div class="ref-note">
+      📁 <strong>agent.py</strong> — main agent loop (fetch data → compute KPIs → build report → save)<br>
+      📁 <strong>tools.py</strong> — fetch_data, compute_kpis, build_report, save_report tool definitions<br>
+      📁 <strong>requirements.txt</strong> — pip dependencies<br>
+      📁 <strong>sample_output.txt</strong> — full console output from a Python run
+    </div>
+  </section>
+
+</div>
+
+<footer>Forgemind AI · Claude Course · HO9 · <a href="https://github.com/Forgemind-git/ho9-agent" style="color:#9CA3AF;">github.com/Forgemind-git/ho9-agent</a></footer>
+
+<script>
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).innerText.replace('Copy','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
