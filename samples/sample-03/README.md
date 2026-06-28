@@ -1,41 +1,21 @@
-# Sample 03 — Page Change Monitor Agent
+# HO9 Sample 3 — page monitor
 
-**Job:** Check a set of URLs for content changes and report what changed.
+## Your task
 
-The agent loads previous snapshots, fetches current page content, diffs old vs new, fires alerts for any changes, and saves fresh snapshots for the next run — entirely automated.
+You manage pages or competitor sites and only notice changes when it is too late. Build a monitoring agent in Cowork.
 
-## Tools Used
+## What you will build
 
-| Tool | Purpose |
-|------|---------|
-| `get_url_list` | Returns the list of URLs to monitor |
-| `load_snapshot` | Loads the last saved snapshot for a URL |
-| `fetch_page` | Fetches current page content (mocked with realistic changes) |
-| `compare_content` | Runs a unified diff on old vs new content |
-| `send_alert` | Prints an alert and appends to `alerts/alert_log.txt` |
-| `save_snapshot` | Saves the new content as the snapshot for next run |
+An agentic job inside Claude Cowork — Claude takes multiple steps autonomously to complete this task.
 
-## Monitored URLs (mock)
+## How to run it
 
-- `https://status.example-saas.com` — status page (now shows webhook outage)
-- `https://changelog.example-tool.io` — changelog (v2.4.0 released with breaking change)
-- `https://pricing.example-platform.com` — pricing page (Pro plan price increased)
+1. Open claude.ai -> Cowork
+2. Upload any input files listed below
+3. Paste the agent prompt from agent-prompt.md
+4. Watch Claude work through the steps
+5. Review and refine the output
 
-## How to Run
+## Required subscription
 
-```bash
-pip install -r requirements.txt
-cp .env.example .env
-# Add your ANTHROPIC_API_KEY
-
-export $(cat .env | xargs)
-python agent.py
-```
-
-## Output
-
-- Console: step-by-step progress with diff summaries
-- `alerts/alert_log.txt` — all change alerts appended
-- `snapshots/` — one `.txt` file per URL for next-run comparison
-
-See `sample_output.txt` for a complete run.
+Claude.ai Pro or Team (Cowork access)

@@ -1,52 +1,21 @@
-# Sample 02 — Lead Enrichment Agent
+# HO9 Sample 2 — lead enrichment
 
-**Job:** Take a list of company names and fill in industry, size, website, and a contact name.
+## Your task
 
-The agent reads a CSV of company names, looks up enrichment data for each one, saves the enriched rows to an output CSV, and prints a summary — fully automated.
+Your sales team imports company names but the rows are mostly empty. Build a lead-enrichment agent in Cowork.
 
-## Tools Used
+## What you will build
 
-| Tool | Purpose |
-|------|---------|
-| `read_companies_csv` | Read company names from input CSV (creates a sample if none exists) |
-| `lookup_company` | Fetch industry, size, website, and contact for one company (mocked) |
-| `save_results` | Append enriched row to output CSV |
+An agentic job inside Claude Cowork — Claude takes multiple steps autonomously to complete this task.
 
-## Steps the Agent Takes
+## How to run it
 
-1. Reads company names from `companies.csv`
-2. Looks up each company with `lookup_company`
-3. Saves each enriched row to `enriched_leads.csv`
-4. Prints a final summary
+1. Open claude.ai -> Cowork
+2. Upload any input files listed below
+3. Paste the agent prompt from agent-prompt.md
+4. Watch Claude work through the steps
+5. Review and refine the output
 
-## How to Run
+## Required subscription
 
-```bash
-pip install -r requirements.txt
-cp .env.example .env
-# Add your ANTHROPIC_API_KEY to .env
-
-export $(cat .env | xargs)
-python agent.py
-# or specify your own CSV:
-python agent.py my_companies.csv
-```
-
-## Input Format
-
-`companies.csv` — one column, `company_name`:
-
-```
-company_name
-Stripe
-Notion
-Linear
-```
-
-(A sample file is auto-created on first run if none exists.)
-
-## Output
-
-`enriched_leads.csv` — enriched data with industry, size, website, contact name, and more.
-
-See `sample_output.txt` for a complete run log.
+Claude.ai Pro or Team (Cowork access)
