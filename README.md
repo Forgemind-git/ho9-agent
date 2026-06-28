@@ -42,3 +42,22 @@ for advanced learners who want to automate it with the Anthropic API (billed sep
 ---
 
 *HO9 · Solo · ForgeMind AI Course · module M13 (Week 4)*
+
+
+## 💡 Use your Claude.ai Pro plan wisely
+
+The Pro plan has a usage limit that resets every few hours. A few habits make it stretch — and
+keep a mistake from burning your whole session:
+
+- **Use the example prompt** in each sample's README — it's already written and tested. Don't
+  reinvent it.
+- **One clear prompt** beats lots of vague back-and-forth. Say what you want, with an example, in
+  a single message.
+- **Start a new chat when you switch tasks.** Long chats re-read every earlier message and use up
+  your limit faster.
+- **Don't paste big files over and over.** Paste once, then refer back to it.
+- **If something works, keep it.** Tweak it rather than regenerate from scratch.
+- **Using Claude Code or Cowork?** This repo's `CLAUDE.md` makes Claude follow these same rules
+  automatically, and `SKILL.md` is a reusable "token-wise" skill.
+
+If you do hit the limit, it resets after a few hours — nothing you've saved is lost.
