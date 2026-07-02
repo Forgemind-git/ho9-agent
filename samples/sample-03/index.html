@@ -1,98 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sample 03 — Page Change Monitor Agent · HO9</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HO9 · Sample 03 — Page Change Monitor Agent · ForgeMind AI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#F8F9FA; color:#1a1a2e; }
-:root { --color: #B45309; }
-header { background: var(--color); color:#fff; padding:40px 32px 32px; }
-header .badge { font-size:13px; font-weight:700; letter-spacing:.08em; opacity:.8; text-transform:uppercase; margin-bottom:8px; }
-header h1 { font-size:28px; font-weight:800; margin-bottom:8px; }
-header p { font-size:15px; opacity:.85; max-width:640px; line-height:1.6; }
-.container { max-width:860px; margin:0 auto; padding:32px; }
-.sub-bar { background:#fff; border-left:4px solid var(--color); padding:14px 20px; margin-bottom:28px; border-radius:4px; font-size:14px; color:#374151; line-height:1.6; box-shadow:0 1px 4px rgba(0,0,0,.07); }
-.sub-bar strong { color:var(--color); }
-section { background:#fff; border-radius:10px; box-shadow:0 1px 6px rgba(0,0,0,.08); padding:28px 32px; margin-bottom:24px; }
-section h2 { font-size:17px; font-weight:700; color:var(--color); margin-bottom:16px; border-bottom:2px solid #FEF3C7; padding-bottom:8px; }
-section p { font-size:14.5px; color:#374151; line-height:1.7; margin-bottom:10px; }
-section ol, section ul { padding-left:20px; font-size:14.5px; color:#374151; line-height:1.9; }
-section li { margin-bottom:4px; }
-.step-list { list-style:none; padding-left:0; }
-.step-list li { display:flex; gap:14px; margin-bottom:16px; }
-.step-num { background:var(--color); color:#fff; font-weight:800; font-size:13px; border-radius:50%; width:26px; height:26px; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; }
-.step-text { font-size:14.5px; color:#374151; line-height:1.6; }
-.prompt-block { background:#1e1e2e; color:#e2e8f0; border-radius:8px; padding:20px 22px; font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:13px; line-height:1.7; position:relative; margin-top:12px; white-space:pre-wrap; word-break:break-word; }
-.copy-btn { position:absolute; top:12px; right:12px; background:rgba(255,255,255,.12); color:#e2e8f0; border:none; border-radius:5px; padding:5px 12px; font-size:12px; cursor:pointer; font-family:inherit; }
-.copy-btn:hover { background:rgba(255,255,255,.22); }
-.copy-btn.copied { background:#16a34a; }
-.output-block { background:#0f172a; color:#94a3b8; border-radius:8px; padding:20px 22px; font-family:'SF Mono','Fira Code','Courier New',monospace; font-size:12.5px; line-height:1.7; margin-top:12px; white-space:pre-wrap; overflow-x:auto; }
-.tag { display:inline-block; background:#FEF3C7; color:#92400E; font-size:11.5px; font-weight:700; padding:2px 8px; border-radius:4px; margin-right:6px; margin-bottom:4px; }
-.ref-note { background:#F0FDF4; border:1px solid #BBF7D0; border-radius:6px; padding:14px 18px; margin-top:12px; font-size:13px; color:#166534; line-height:1.6; }
-.alert-box { background:#FEF2F2; border-left:4px solid #EF4444; border-radius:6px; padding:14px 18px; margin-bottom:12px; font-size:13.5px; color:#7F1D1D; line-height:1.6; }
-.alert-box strong { color:#EF4444; }
-.back-link { display:inline-flex; align-items:center; gap:6px; color:#fff; opacity:.8; font-size:13px; text-decoration:none; margin-bottom:14px; }
-.back-link:hover { opacity:1; }
-footer { text-align:center; padding:24px; color:#9CA3AF; font-size:13px; border-top:1px solid #E5E7EB; margin-top:8px; }
+  :root{
+    --pageBg:#F7F7F3; --headerBg:#0F0F10; --headerText:#F5F5F2; --headerMuted:#A1A1AA;
+    --headerBorder:rgba(255,255,255,.12); --cardBg:#fff; --border:#E5E5E0;
+    --text:#111; --textSec:#6B7280; --textMuted:#999; --primary:#dc2626; --primaryHover:#b91c1c;
+    --hover:#EFEEE6; --green:#0F6E56; --purple:#534AB7; --amber:#854F0B;
+    --shadowSm:0 1px 2px rgba(0,0,0,.08); --shadowMd:0 8px 24px rgba(0,0,0,.06);
+    --font:'DM Sans',system-ui,sans-serif; --mono:'DM Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{font-family:var(--font);background:var(--pageBg);color:var(--text);}
+  a{color:inherit;}
+  header{height:56px;background:var(--headerBg);color:var(--headerText);display:flex;align-items:center;
+    padding:0 20px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--headerBorder);}
+  .wordmark{font-weight:900;font-size:16px;letter-spacing:.02em;display:flex;align-items:center;gap:2px;}
+  .wordmark .badge{background:var(--primary);color:#fff;padding:1px 6px;border-radius:5px;margin-left:2px;font-weight:800;}
+  .header-right{margin-left:auto;color:var(--headerMuted);font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px;}
+  .header-right .dot{width:6px;height:6px;border-radius:99px;background:var(--green);}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 24px 64px;}
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);}
+  h1{font-size:30px;font-weight:700;margin:8px 0 14px;letter-spacing:-.01em;}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+  .pill{font-size:11px;font-weight:600;padding:4px 10px;border-radius:99px;font-family:var(--mono);}
+  .pill.wk{background:#E7F0FE;color:#1877F2;} .pill.mod{background:#EEEDFE;color:#3C3489;}
+  .pill.fmt{background:#E1F5EE;color:#0F6E56;} .pill.kind{background:#FAEEDA;color:#854F0B;}
+  .card{background:var(--cardBg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadowSm);padding:20px;}
+  .section-h{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600;margin:34px 0 14px;}
+  .section-h svg{color:var(--primary);}
+  .steps{counter-reset:s;display:flex;flex-direction:column;gap:16px;}
+  .step{display:flex;gap:12px;align-items:flex-start;}
+  .step .n{counter-increment:s;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--primary);
+    border:1.5px solid var(--border);border-radius:99px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step .n::before{content:counter(s);}
+  .step .body{font-size:13.5px;line-height:1.5;flex:1;}
+  .tip{background:#FDF6F6;border:1px solid #F3C6C6;border-radius:8px;padding:16px 18px;margin-top:22px;}
+  .tip .th{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--primary);margin-bottom:6px;}
+  .tip p{margin:0;font-size:13px;color:var(--textSec);line-height:1.6;}
+  code{font-family:var(--mono);font-size:12px;background:#F1F0EA;padding:1px 5px;border-radius:4px;}
+  footer{border-top:1px solid var(--border);margin-top:40px;padding-top:18px;font-size:12px;color:var(--textMuted);font-family:var(--mono);text-align:center;}
+  footer a{color:var(--textMuted);}
+  .back{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--textSec);text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-bottom:16px;}
+  .back:hover{color:var(--primary);}
+  .card + .card{margin-top:18px;}
+  .card h2{font-size:15px;font-weight:600;margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  .card h2 svg{color:var(--primary);width:17px;height:17px;}
+  .card p{font-size:13.5px;line-height:1.6;color:var(--text);margin:0 0 10px;}
+  .card ul,.card ol{margin:0 0 6px;padding-left:20px;font-size:13.5px;line-height:1.7;color:var(--text);}
+  .card li{margin-bottom:3px;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .tag{font-family:var(--mono);font-size:11px;font-weight:500;background:#FCEBEB;color:var(--primary);padding:3px 9px;border-radius:99px;}
+  .prompt-block,.output-block{background:#0F0F10;color:#E4E4E7;border:1px solid #26262B;border-radius:8px;
+    padding:18px 20px;font-family:var(--mono);font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word;position:relative;margin-top:12px;overflow-x:auto;}
+  .output-block{color:#A1A1AA;}
+  .copy-btn{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.1);color:#E4E4E7;border:none;
+    border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:var(--mono);}
+  .copy-btn:hover{background:rgba(255,255,255,.2);}
+  .copy-btn.copied{background:var(--green);color:#fff;}
+  .ref-note{background:#E1F5EE;border:1px solid #B7E4D5;border-radius:8px;padding:14px 18px;margin-top:12px;font-size:13px;color:var(--green);line-height:1.9;}
+  .ref-note strong{color:#0B4C3C;}
+  .alert-box{background:#FCEBEB;border-left:3px solid var(--primary);border-radius:6px;padding:12px 16px;margin-bottom:10px;font-size:13px;color:#7F1616;line-height:1.6;}
+  .alert-box strong{color:var(--primary);display:inline-flex;align-items:center;gap:5px;}
+  .alert-box strong svg{width:14px;height:14px;}
+  @media(max-width:680px){h1{font-size:24px;}}
 </style>
 </head>
 <body>
-<header>
-  <a href="../../" class="back-link">← Back to HO9</a>
-  <div class="badge">HO9 · Sample 03</div>
-  <h1>Page Change Monitor Agent</h1>
-  <p>Check a set of URLs for content changes, diff old vs new, and fire alerts for anything that changed — all automated.</p>
-</header>
+  <header>
+    <span class="wordmark">FORGE<span class="badge">COURSE</span></span>
+    <span class="header-right"><span class="dot"></span>ForgeMind AI · Hands-On Portfolio</span>
+  </header>
 
-<div class="container">
-
-  <div class="sub-bar">
-    <strong>Claude.ai subscription required</strong> — Requires Claude.ai Pro or Team subscription with Cowork access. No API key or local Python setup needed.
-  </div>
-
-  <section>
-    <h2>What this does</h2>
-    <p>This agent monitors a list of web pages you care about — competitor pricing, status pages, changelogs, job boards — and tells you exactly what changed between checks. It:</p>
-    <ul>
-      <li>Visits each URL in your watch list</li>
-      <li>Compares the current content to the last-seen version</li>
-      <li>Produces a clear diff summary for each changed page</li>
-      <li>Highlights whether changes are significant (pricing, breaking changes, outages)</li>
-      <li>Saves an alert log so you have a history of all changes</li>
-    </ul>
-    <p style="margin-top:12px;">Useful for monitoring competitor pricing pages, SaaS changelogs, status pages, or any page where changes matter.</p>
-  </section>
-
-  <section>
-    <h2>Subscription required</h2>
-    <p><strong>Claude.ai Pro or Team</strong> subscription with <strong>Cowork</strong> access is required. Cowork lets Claude browse the live web and compare page contents across multiple URLs.</p>
-    <div>
-      <span class="tag">Claude.ai Pro</span>
-      <span class="tag">Claude.ai Team</span>
-      <span class="tag">Cowork feature</span>
+  <div class="wrap">
+    <a class="back" href="../../"><i data-lucide="arrow-left"></i> Back to HO9</a>
+    <div class="eyebrow">Hands-On 9 · Sample 03 · Agentic AI</div>
+    <h1>Page Change Monitor Agent</h1>
+    <div class="pills">
+      <span class="pill wk">Week 4</span>
+      <span class="pill mod">M13 · Agentic AI</span>
+      <span class="pill fmt">Solo</span>
+      <span class="pill kind">Agent</span>
     </div>
-  </section>
 
-  <section>
-    <h2>Step-by-step in Claude Cowork</h2>
-    <ol class="step-list">
-      <li>
-        <div class="step-num">1</div>
-        <div class="step-text">Open <strong>claude.ai</strong> and sign in to your Pro or Team account.</div>
-      </li>
-      <li>
-        <div class="step-num">2</div>
-        <div class="step-text">Click <strong>"Cowork"</strong> in the left sidebar to start a new Cowork session.</div>
-      </li>
-      <li>
-        <div class="step-num">3</div>
-        <div class="step-text">Decide which URLs you want to monitor. Good candidates: pricing pages, status pages, documentation changelogs, job listings, or competitor landing pages.</div>
-      </li>
-      <li>
-        <div class="step-num">4</div>
-        <div class="step-text">Paste this prompt into Cowork, updating the URL list with your own pages:
+    <div class="tip">
+      <div class="th"><i data-lucide="sparkles"></i> Claude.ai subscription required</div>
+      <p>Requires Claude.ai Pro or Team with Cowork access. Open Claude, start a Cowork session, and paste the agent prompt below. No API key or local Python setup needed.</p>
+    </div>
+
+    <div class="section-h"><i data-lucide="search"></i> What this does</div>
+    <div class="card">
+      <p>This agent monitors a list of web pages you care about — competitor pricing, status pages, changelogs, job boards — and tells you exactly what changed between checks. It:</p>
+      <ul>
+        <li>Visits each URL in your watch list</li>
+        <li>Compares the current content to the last-seen version</li>
+        <li>Produces a clear diff summary for each changed page</li>
+        <li>Highlights whether changes are significant (pricing, breaking changes, outages)</li>
+        <li>Saves an alert log so you have a history of all changes</li>
+      </ul>
+      <p style="margin-bottom:0;">Useful for monitoring competitor pricing pages, SaaS changelogs, status pages, or any page where changes matter.</p>
+    </div>
+
+    <div class="card">
+      <h2><i data-lucide="key-round"></i> Subscription required</h2>
+      <p style="margin-bottom:0;"><strong>Claude.ai Pro or Team</strong> subscription with <strong>Cowork</strong> access is required. Cowork lets Claude browse the live web and compare page contents across multiple URLs.</p>
+      <div class="tags">
+        <span class="tag">Claude.ai Pro</span>
+        <span class="tag">Claude.ai Team</span>
+        <span class="tag">Cowork feature</span>
+      </div>
+    </div>
+
+    <div class="section-h"><i data-lucide="list-ordered"></i> Step-by-step in Claude Cowork</div>
+    <div class="card">
+      <div class="steps">
+        <div class="step"><span class="n"></span><div class="body">Open <strong>claude.ai</strong> and sign in to your Pro or Team account.</div></div>
+        <div class="step"><span class="n"></span><div class="body">Click <strong>"Cowork"</strong> in the left sidebar to start a new Cowork session.</div></div>
+        <div class="step"><span class="n"></span><div class="body">Decide which URLs you want to monitor. Good candidates: pricing pages, status pages, documentation changelogs, job listings, or competitor landing pages.</div></div>
+        <div class="step"><span class="n"></span><div class="body">Paste this prompt into Cowork, updating the URL list with your own pages:
           <div class="prompt-block" id="prompt-03">You are a page change monitor agent. I'll give you a list of URLs to check. Complete all steps WITHOUT asking me questions.
 
 URLs to monitor:
@@ -116,29 +147,22 @@ After checking all URLs:
 
 Work through all URLs methodically. Flag anything significant.</div>
           <button class="copy-btn" onclick="copyPrompt('prompt-03', this)">Copy</button>
-        </div>
-      </li>
-      <li>
-        <div class="step-num">5</div>
-        <div class="step-text">Replace the example URLs with the pages you actually want to monitor.</div>
-      </li>
-      <li>
-        <div class="step-num">6</div>
-        <div class="step-text">For recurring monitoring, run the same prompt in a new Cowork session each day or week. Compare Claude's reports to spot what changed between runs.</div>
-      </li>
-    </ol>
-  </section>
+        </div></div>
+        <div class="step"><span class="n"></span><div class="body">Replace the example URLs with the pages you actually want to monitor.</div></div>
+        <div class="step"><span class="n"></span><div class="body">For recurring monitoring, run the same prompt in a new Cowork session each day or week. Compare Claude's reports to spot what changed between runs.</div></div>
+      </div>
+    </div>
 
-  <section>
-    <h2>Sample output</h2>
-    <p>Example change report — showing what the agent flags:</p>
-    <div class="alert-box"><strong>⚠ ALERT — HIGH PRIORITY</strong><br>
+    <div class="section-h"><i data-lucide="bell-ring"></i> Sample output</div>
+    <div class="card">
+      <p>Example change report — showing what the agent flags:</p>
+      <div class="alert-box"><strong><i data-lucide="alert-triangle"></i> ALERT — HIGH PRIORITY</strong><br>
 URL: https://status.example-saas.com<br>
 Change detected: Webhook delivery degraded — affecting 18% of customers since 14:32 UTC</div>
-    <div class="alert-box"><strong>⚠ ALERT — HIGH PRIORITY</strong><br>
+      <div class="alert-box"><strong><i data-lucide="alert-triangle"></i> ALERT — HIGH PRIORITY</strong><br>
 URL: https://changelog.example-tool.io<br>
 Change detected: v2.4.0 released with BREAKING CHANGE — deprecated API endpoints removed</div>
-    <div class="output-block">PAGE MONITOR REPORT — 2025-06-27 09:22:11
+      <div class="output-block">PAGE MONITOR REPORT — 2025-06-27 09:22:11
 ==========================================
 
 [1] https://status.example-saas.com
@@ -158,32 +182,32 @@ Change detected: v2.4.0 released with BREAKING CHANGE — deprecated API endpoin
 
 Report saved: alerts/page-monitor-report.md
 3 URLs checked | 3 changes detected | 3 alerts fired</div>
-  </section>
-
-  <section>
-    <h2>Reference: local Python version</h2>
-    <p>The files below are the original Python implementation that requires <code>ANTHROPIC_API_KEY</code> and a local Python environment.</p>
-    <div class="ref-note">
-      📁 <strong>agent.py</strong> — main agent loop (load snapshots → fetch → diff → alert → save)<br>
-      📁 <strong>tools.py</strong> — get_url_list, load_snapshot, fetch_page, compare_content, send_alert, save_snapshot<br>
-      📁 <strong>requirements.txt</strong> — pip dependencies<br>
-      📁 <strong>sample_output.txt</strong> — full console output from a Python run
     </div>
-  </section>
 
-</div>
+    <div class="section-h"><i data-lucide="code-2"></i> Reference: local Python version</div>
+    <div class="card">
+      <p>The files below are the original Python implementation that requires <code>ANTHROPIC_API_KEY</code> and a local Python environment.</p>
+      <div class="ref-note">
+        <strong>agent.py</strong> — main agent loop (load snapshots → fetch → diff → alert → save)<br>
+        <strong>tools.py</strong> — get_url_list, load_snapshot, fetch_page, compare_content, send_alert, save_snapshot<br>
+        <strong>requirements.txt</strong> — pip dependencies<br>
+        <strong>sample_output.txt</strong> — full console output from a Python run
+      </div>
+    </div>
 
-<footer>Forgemind AI · Claude Course · HO9 · <a href="https://github.com/Forgemind-git/ho9-agent" style="color:#9CA3AF;">github.com/Forgemind-git/ho9-agent</a></footer>
+    <footer>HO9 · Solo · ForgeMind AI — AI Productivity Essentials · Module M13 (Week 4) · <a href="https://github.com/Forgemind-git/ho9-agent">github.com/Forgemind-git/ho9-agent</a></footer>
+  </div>
 
-<script>
-function copyPrompt(id, btn) {
-  const text = document.getElementById(id).innerText.replace('Copy','').trim();
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-  });
-}
-</script>
+  <script>
+    function copyPrompt(id, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+    lucide.createIcons();
+  </script>
 </body>
 </html>
