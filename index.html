@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HO9 — Agent That Does a Real Job · Starter · ForgeMind AI</title>
+<title>HO9 — Agent That Does a Real Job · ForgeMind AI</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
   :root{
-    --pageBg:#F7F7F3; --headerBg:#0F0F10; --headerText:#F5F5F2; --headerMuted:#A1A1AA;
+    --pageBg:#F7F7F3; --sidebarBg:#FAF9F5; --headerBg:#0F0F10; --headerText:#F5F5F2; --headerMuted:#A1A1AA;
     --headerBorder:rgba(255,255,255,.12); --cardBg:#fff; --border:#E5E5E0;
     --text:#111; --textSec:#6B7280; --textMuted:#999; --primary:#dc2626; --primaryHover:#b91c1c;
     --hover:#EFEEE6; --green:#0F6E56; --purple:#534AB7; --amber:#854F0B;
@@ -16,118 +16,207 @@
     --font:'DM Sans',system-ui,sans-serif; --mono:'DM Mono',monospace;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;}
+  html,body{margin:0;height:100%;}
   body{font-family:var(--font);background:var(--pageBg);color:var(--text);}
-  a{color:inherit;}
+  a{color:inherit;text-decoration:none;}
+  /* dark header — full width */
   header{height:56px;background:var(--headerBg);color:var(--headerText);display:flex;align-items:center;
-    padding:0 20px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--headerBorder);}
+    flex-shrink:0;border-bottom:1px solid var(--headerBorder);}
+  .brand{width:220px;display:flex;align-items:center;gap:10px;padding-left:20px;height:100%;
+    border-right:1px solid var(--headerBorder);}
   .wordmark{font-weight:900;font-size:16px;letter-spacing:.02em;display:flex;align-items:center;gap:2px;}
   .wordmark .badge{background:var(--primary);color:#fff;padding:1px 6px;border-radius:5px;margin-left:2px;font-weight:800;}
-  .header-right{margin-left:auto;color:var(--headerMuted);font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px;}
+  .header-right{margin-left:auto;padding-right:20px;color:var(--headerMuted);font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px;}
   .header-right .dot{width:6px;height:6px;border-radius:99px;background:var(--green);}
-  .wrap{max-width:960px;margin:0 auto;padding:32px 24px 64px;}
+  /* shell = sidebar + main */
+  .shell{display:flex;height:calc(100vh - 56px);}
+  /* sidebar */
+  .sidebar{width:220px;flex-shrink:0;background:var(--sidebarBg);border-right:1px solid var(--border);
+    padding:16px 12px;display:flex;flex-direction:column;overflow-y:auto;}
+  .side-back{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;
+    color:var(--textSec);margin-bottom:10px;}
+  .side-back:hover{background:var(--hover);color:var(--text);}
+  .side-back svg{width:16px;height:16px;}
+  .side-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--textMuted);
+    text-transform:uppercase;margin:8px 12px 6px;}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;
+    color:var(--text);margin-bottom:2px;transition:background .12s;}
+  .nav a svg{width:17px;height:17px;opacity:.75;flex-shrink:0;}
+  .nav a:hover{background:var(--hover);}
+  .nav a.active{background:var(--primary);color:#fff;font-weight:700;box-shadow:0 2px 8px rgba(220,38,38,.25);}
+  .nav a.active svg{opacity:1;}
+  .side-foot{margin-top:auto;padding:14px 12px 4px;font-family:var(--mono);font-size:10px;color:var(--textMuted);
+    border-top:1px solid var(--border);}
+  /* main — full width */
+  main{flex:1;min-width:0;overflow-y:auto;padding:34px 44px 72px;}
+  .maxw{max-width:1180px;}
   .eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);}
-  h1{font-size:30px;font-weight:700;margin:8px 0 14px;letter-spacing:-.01em;}
-  .pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
-  .pill{font-size:11px;font-weight:600;padding:4px 10px;border-radius:99px;font-family:var(--mono);}
+  h1{font-size:32px;font-weight:700;margin:8px 0 14px;letter-spacing:-.01em;}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px;}
+  .pill{font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;font-family:var(--mono);}
   .pill.wk{background:#E7F0FE;color:#1877F2;} .pill.mod{background:#EEEDFE;color:#3C3489;}
   .pill.fmt{background:#E1F5EE;color:#0F6E56;} .pill.kind{background:#FAEEDA;color:#854F0B;}
-  .card{background:var(--cardBg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadowSm);padding:20px;}
-  .done{display:flex;align-items:flex-start;gap:12px;margin-bottom:28px;}
-  .done .ic{width:34px;height:34px;border-radius:8px;background:#FCEBEB;color:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .done .cap{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--textMuted);}
-  .done .val{font-size:15px;font-weight:600;margin-top:3px;}
-  .section-h{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600;margin:34px 0 14px;}
-  .section-h svg{color:var(--primary);}
-  .sub{font-size:13px;color:var(--textSec);margin:-8px 0 16px;}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .sample{background:var(--cardBg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadowSm);
-    padding:16px;display:flex;flex-direction:column;gap:8px;transition:box-shadow .15s,transform .15s;}
-  .sample:hover{box-shadow:var(--shadowMd);transform:translateY(-1px);}
-  .sample .num{font-family:var(--mono);font-size:11px;font-weight:500;color:#fff;background:var(--primary);
-    width:22px;height:22px;border-radius:99px;display:flex;align-items:center;justify-content:center;}
-  .sample h3{font-size:14.5px;font-weight:600;margin:2px 0 0;text-transform:capitalize;}
-  .sample p{font-size:13px;line-height:1.5;color:var(--text);margin:0;}
-  .todo{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--amber);background:#FAEEDA;
-    padding:2px 9px;border-radius:99px;display:inline-flex;align-items:center;gap:5px;width:fit-content;}
-  .todo svg{width:12px;height:12px;}
-  .sample .go{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--primary);text-decoration:none;margin-top:auto;display:inline-flex;align-items:center;gap:4px;}
-  .sample .go:hover{color:var(--primaryHover);}
-  .steps{counter-reset:s;display:flex;flex-direction:column;gap:10px;}
-  .step{display:flex;gap:12px;align-items:flex-start;}
-  .step .n{counter-increment:s;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--primary);
-    border:1.5px solid var(--border);border-radius:99px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .step .n::before{content:counter(s);}
-  .step p{font-size:13.5px;line-height:1.5;margin:2px 0;}
-  .tip{background:#FDF6F6;border:1px solid #F3C6C6;border-radius:8px;padding:16px 18px;margin-top:22px;}
-  .tip .th{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--primary);margin-bottom:6px;}
-  .tip p{margin:0;font-size:13px;color:var(--textSec);line-height:1.6;}
-  .tip ul{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--textSec);line-height:1.6;}
+  section{scroll-margin-top:20px;}
+  .done{display:flex;align-items:flex-start;gap:14px;background:var(--cardBg);border:1px solid var(--border);
+    border-radius:8px;box-shadow:var(--shadowSm);padding:20px 22px;margin-bottom:8px;}
+  .done .ic{width:38px;height:38px;border-radius:8px;background:#FCEBEB;color:var(--primary);display:flex;
+    align-items:center;justify-content:center;flex-shrink:0;}
+  .done .ic svg{width:20px;height:20px;}
+  .done .cap{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--textMuted);}
+  .done .val{font-size:16px;font-weight:600;margin-top:4px;line-height:1.45;}
+  .section-h{display:flex;align-items:center;gap:9px;font-size:20px;font-weight:600;margin:40px 0 14px;}
+  .section-h svg{width:20px;height:20px;color:var(--primary);}
+  .lead{font-size:14px;color:var(--textSec);line-height:1.75;max-width:900px;}
+  .lead b{color:var(--text);}
   code{font-family:var(--mono);font-size:12px;background:#F1F0EA;padding:1px 5px;border-radius:4px;}
-  footer{border-top:1px solid var(--border);margin-top:40px;padding-top:18px;font-size:12px;color:var(--textMuted);font-family:var(--mono);text-align:center;}
-  footer a{color:var(--textMuted);}
-  @media(max-width:680px){.grid{grid-template-columns:1fr;} h1{font-size:24px;}}
+  /* sample grid — fills the width */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-top:6px;}
+  .sample{background:var(--cardBg);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadowSm);
+    padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:box-shadow .15s,transform .15s,border-color .15s;}
+  .sample:hover{box-shadow:var(--shadowMd);transform:translateY(-1px);border-color:#d9d9d2;}
+  .sample .top{display:flex;align-items:center;gap:10px;}
+  .sample .num{font-family:var(--mono);font-size:11px;font-weight:500;color:#fff;background:var(--primary);
+    width:24px;height:24px;border-radius:99px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sample .st{font-size:15px;font-weight:600;}
+  .sample p{font-size:13px;line-height:1.55;color:var(--textSec);margin:0;flex:1;}
+  .sample .succ{font-size:12px;color:var(--green);font-weight:500;line-height:1.4;}
+  .sample .open{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;margin-top:2px;
+    background:#FCEBEB;color:var(--primary);font-size:12px;font-weight:600;font-family:var(--mono);
+    padding:7px 13px;border-radius:7px;transition:background .12s;}
+  .sample .open:hover{background:var(--primary);color:#fff;}
+  .sample .open svg{width:14px;height:14px;}
+  /* steps */
+  .steps{counter-reset:s;display:flex;flex-direction:column;gap:12px;background:var(--cardBg);border:1px solid var(--border);
+    border-radius:8px;box-shadow:var(--shadowSm);padding:20px 22px;max-width:900px;}
+  .step{display:flex;gap:13px;align-items:flex-start;}
+  .step .n{counter-increment:s;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--primary);
+    border:1.5px solid var(--border);border-radius:99px;width:27px;height:27px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step .n::before{content:counter(s);}
+  .step p{font-size:13.5px;line-height:1.55;margin:3px 0;}
+  /* tip */
+  .tip{background:#FDF6F6;border:1px solid #F3C6C6;border-radius:8px;padding:16px 20px;margin-top:8px;max-width:900px;}
+  .tip .th{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--primary);margin-bottom:6px;}
+  .tip .th svg{width:16px;height:16px;}
+  .tip ul{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--textSec);line-height:1.65;}
+  @media(max-width:820px){.sidebar{display:none;} main{padding:26px 22px 60px;} h1{font-size:26px;}}
 </style>
 </head>
 <body>
   <header>
-    <span class="wordmark">FORGE<span class="badge">COURSE</span></span>
+    <div class="brand"><span class="wordmark">FORGE<span class="badge">COURSE</span></span></div>
     <span class="header-right"><span class="dot"></span>ForgeMind AI · Hands-On Portfolio</span>
   </header>
 
-  <div class="wrap">
-    <div class="eyebrow">Hands-On 9 · Week 4 · Module M13 — Agentic AI · Starter Template</div>
-    <h1>Agent That Does a Real Job</h1>
-    <div class="pills">
-      <span class="pill wk">Week 4</span>
-      <span class="pill mod">M13 · Agentic AI</span>
-      <span class="pill fmt">Solo</span>
-      <span class="pill kind">Starter</span>
-    </div>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="side-back" href="../"><i data-lucide="grid-2x2"></i> All Hands-On</a>
+      <div class="side-label">On this page</div>
+      <nav class="nav">
+        <a href="#overview" class="active"><i data-lucide="target"></i> Overview</a>
+        <a href="#build"><i data-lucide="cpu"></i> What you build</a>
+        <a href="#samples"><i data-lucide="list-checks"></i> Problem statements</a>
+        <a href="#howto"><i data-lucide="git-branch"></i> How to use</a>
+        <a href="#tips"><i data-lucide="battery-charging"></i> Pro-plan tips</a>
+      </nav>
+      <div class="side-foot">ForgeMind AI<br>AI Productivity Essentials<br>HO9 · Module M13 · Week 4</div>
+    </aside>
 
-    <div class="done card">
-      <div class="ic"><i data-lucide="target"></i></div>
-      <div>
-        <div class="cap">Done when</div>
-        <div class="val">A multi-step job completed unattended.</div>
-      </div>
-    </div>
+    <main>
+     <div class="maxw">
+      <section id="overview">
+        <div class="eyebrow">Hands-On 9 · Week 4 · Module M13 — Agentic AI</div>
+        <h1>Agent That Does a Real Job</h1>
+        <div class="pills">
+          <span class="pill wk">Week 4</span>
+          <span class="pill mod">M13 · Agentic AI</span>
+          <span class="pill fmt">Solo</span>
+          <span class="pill kind">Agent</span>
+        </div>
+        <div class="done">
+          <div class="ic"><i data-lucide="target"></i></div>
+          <div>
+            <div class="cap">Done when</div>
+            <div class="val">A multi-step job completed unattended.</div>
+          </div>
+        </div>
+      </section>
 
-    <div class="tip">
-      <div class="th"><i data-lucide="git-branch"></i> This is the starter branch</div>
-      <p>It gives you the structure — you supply the thinking and the Claude.ai work. Pick <b>one</b> sample below, read its problem statement, and build it in Claude Cowork. To see a complete reference, switch to the <code>main</code> branch or visit the GitHub Pages site.</p>
-    </div>
+      <section id="build">
+        <div class="section-h"><i data-lucide="cpu"></i> What you build</div>
+        <p class="lead">You build an <b>agent that does a real job</b> — give it one trigger and it plans, uses tools, reads results, and completes a <b>multi-step job unattended</b>, with no human steering each step. Pick a chore you actually repeat and let the agent run the whole chain end-to-end. Ship the agent config/script + a recording of it running end-to-end + a README of the job it does. No API key needed — everything runs on your normal Claude.ai login (Pro or Team).</p>
+      </section>
 
-    <div class="section-h"><i data-lucide="list-checks"></i> Pick a problem statement</div>
-    <div class="sub">Choose one real use-case — or bring your own (get it approved first). Each sample folder has a ready-to-use <code>agent-prompt.md</code>.</div>
-    <div class="grid">
-      <div class="sample"><span class="num">1</span><h3>Research Brief</h3><span class="todo"><i data-lucide="square"></i> Not started</span><p>As an analyst you lose half a day researching every new topic. Build an agent that gathers sources, summarises them and writes a structured brief in Cowork.</p><a class="go" href="./samples/sample-01/">Start here <i data-lucide="arrow-right"></i></a></div>
-      <div class="sample"><span class="num">2</span><h3>Lead Enrichment</h3><span class="todo"><i data-lucide="square"></i> Not started</span><p>Your sales team imports company names but the rows are mostly empty. Build a lead-enrichment agent in Cowork.</p><a class="go" href="./samples/sample-02/">Start here <i data-lucide="arrow-right"></i></a></div>
-      <div class="sample"><span class="num">3</span><h3>Page Monitor</h3><span class="todo"><i data-lucide="square"></i> Not started</span><p>You manage pages or competitor sites and only notice changes when it is too late. Build a monitoring agent in Cowork.</p><a class="go" href="./samples/sample-03/">Start here <i data-lucide="arrow-right"></i></a></div>
-      <div class="sample"><span class="num">4</span><h3>Inbox Triage</h3><span class="todo"><i data-lucide="square"></i> Not started</span><p>Your shared inbox piles up faster than you can sort it. Build an inbox-triage agent in Cowork.</p><a class="go" href="./samples/sample-04/">Start here <i data-lucide="arrow-right"></i></a></div>
-      <div class="sample"><span class="num">5</span><h3>Report Generator</h3><span class="todo"><i data-lucide="square"></i> Not started</span><p>Leadership wants a recurring summary and assembling it by hand is a chore. Build a reporting agent in Cowork.</p><a class="go" href="./samples/sample-05/">Start here <i data-lucide="arrow-right"></i></a></div>
-    </div>
+      <section id="samples">
+        <div class="section-h"><i data-lucide="list-checks"></i> Pick a problem statement</div>
+        <p class="lead" style="margin-bottom:16px;">Each sample is a real, hosted build — the agent config and a full unattended run all filled in. Open one live, or bring your own recurring job (get it approved first).</p>
+        <div class="grid">
+          <div class="sample">
+            <div class="top"><span class="num">1</span><span class="st">Research Brief Agent</span></div>
+            <p>As an analyst you lose half a day researching every new topic by hand. Build an agent that, given a topic, gathers sources, reads them, and outputs a structured brief, running the full chain without you steering each step.</p>
+            <span class="succ">✓ one unattended run that takes a topic in and produces a sourced brief out</span>
+            <a class="open" href="https://course.srv879786.hstgr.cloud/samples/ho9-agent/sample-01/" target="_blank"><i data-lucide="external-link"></i> Open live sample</a>
+          </div>
+          <div class="sample">
+            <div class="top"><span class="num">2</span><span class="st">Lead Enrichment Agent</span></div>
+            <p>Your sales team imports company names but the rows are mostly empty. Build a lead-enrichment agent that takes a list of companies and fills in details (industry, size, website, a contact) from the web, step by step on its own.</p>
+            <span class="succ">✓ an unattended run that turns a bare list into an enriched one, recorded end to end</span>
+            <a class="open" href="https://course.srv879786.hstgr.cloud/samples/ho9-agent/sample-02/" target="_blank"><i data-lucide="external-link"></i> Open live sample</a>
+          </div>
+          <div class="sample">
+            <div class="top"><span class="num">3</span><span class="st">Page Change Monitor Agent</span></div>
+            <p>You manage pages or competitor sites and only notice changes when it is too late. Build a monitoring agent that checks a set of pages daily and reports what changed, deciding what is worth flagging without supervision.</p>
+            <span class="succ">✓ an unattended run that detects a change and produces a clear change report</span>
+            <a class="open" href="https://course.srv879786.hstgr.cloud/samples/ho9-agent/sample-03/" target="_blank"><i data-lucide="external-link"></i> Open live sample</a>
+          </div>
+          <div class="sample">
+            <div class="top"><span class="num">4</span><span class="st">Inbox Triage Agent</span></div>
+            <p>Your shared inbox piles up faster than you can sort it. Build an inbox-triage agent that reads incoming requests, categorises them, and drafts replies for your review, running the whole loop unattended.</p>
+            <span class="succ">✓ a batch that comes back sorted with draft replies ready for a human to approve</span>
+            <a class="open" href="https://course.srv879786.hstgr.cloud/samples/ho9-agent/sample-04/" target="_blank"><i data-lucide="external-link"></i> Open live sample</a>
+          </div>
+          <div class="sample">
+            <div class="top"><span class="num">5</span><span class="st">Recurring Report Generator</span></div>
+            <p>Leadership wants a recurring summary and assembling it by hand is a chore. Build a reporting agent that pulls data, builds a summary, and posts it to a channel, completing every step on its own.</p>
+            <span class="succ">✓ one unattended run from data pull to a finished report, no manual steps in between</span>
+            <a class="open" href="https://course.srv879786.hstgr.cloud/samples/ho9-agent/sample-05/" target="_blank"><i data-lucide="external-link"></i> Open live sample</a>
+          </div>
+        </div>
+      </section>
 
-    <div class="section-h"><i data-lucide="git-branch"></i> How to use this repo</div>
-    <div class="steps card">
-      <div class="step"><span class="n"></span><p>Click <b>Use this template</b> to create your own copy.</p></div>
-      <div class="step"><span class="n"></span><p>Pick the sample closest to your job, copy its <code>agent-prompt.md</code> brief into Cowork, and run it.</p></div>
-      <div class="step"><span class="n"></span><p>Adapt the brief to your own use case, then replace this README with what you built, the problem it solves, and how to run it.</p></div>
-    </div>
+      <section id="howto">
+        <div class="section-h"><i data-lucide="git-branch"></i> How to use this repo</div>
+        <div class="steps">
+          <div class="step"><span class="n"></span><p>Click <b>Use this template</b> to create your own copy.</p></div>
+          <div class="step"><span class="n"></span><p>Open a live sample above, then point the agent at <b>your own recurring job</b> and let it run the full chain unattended.</p></div>
+          <div class="step"><span class="n"></span><p>Replace this README with what you built: the job it does, plus a recording of one end-to-end run.</p></div>
+        </div>
+      </section>
 
-    <div class="tip">
-      <div class="th"><i data-lucide="battery-charging"></i> Use your Claude.ai Pro plan wisely</div>
-      <ul>
-        <li>Use the example prompt in each sample — it's already written and tested. Don't reinvent it.</li>
-        <li>One clear prompt beats lots of vague back-and-forth. Say what you want, with an example, in a single message.</li>
-        <li>Start a new chat when you switch tasks — long chats re-read every earlier message and use your limit faster.</li>
-        <li>Don't paste big files over and over. Paste once, then refer back to it.</li>
-        <li>If something works, keep it. Tweak it rather than regenerate from scratch.</li>
-      </ul>
-    </div>
-
-    <footer>HO9 · Solo · ForgeMind AI — AI Productivity Essentials · Module M13 (Week 4) · <a href="https://github.com/Forgemind-git/ho9-agent">github.com/Forgemind-git/ho9-agent</a></footer>
+      <section id="tips">
+        <div class="section-h"><i data-lucide="battery-charging"></i> Use your Claude.ai Pro plan wisely</div>
+        <div class="tip">
+          <div class="th"><i data-lucide="badge-check"></i> Subscription-first — no API key</div>
+          <ul>
+            <li>Everything runs on your normal Claude.ai login (Pro or Team) — no API key.</li>
+            <li>Pick a job you actually repeat — the agent earns its keep when it removes real busywork.</li>
+            <li>Let the agent finish the whole chain before you inspect it — that's the point of "unattended".</li>
+            <li>Start a new chat when you switch tasks — long chats use your limit faster.</li>
+          </ul>
+        </div>
+      </section>
+     </div>
+    </main>
   </div>
-  <script>lucide.createIcons();</script>
+
+  <script>
+    lucide.createIcons();
+    // scroll-spy: highlight the sidebar link for the section in view
+    const links = [...document.querySelectorAll('.nav a')];
+    const map = {}; links.forEach(a=>{ const id=a.getAttribute('href').slice(1); if(id) map[id]=a; });
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ links.forEach(l=>l.classList.remove('active')); map[e.target.id]?.classList.add('active'); }});
+    },{rootMargin:'-15% 0px -70% 0px',threshold:0});
+    document.querySelectorAll('main section[id]').forEach(s=>obs.observe(s));
+  </script>
 </body>
 </html>
